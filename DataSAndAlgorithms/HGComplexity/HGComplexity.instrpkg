@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<package>
+	<id>com.inc.HGComplexity</id>
+	<title>HGComplexity</title>
+	<owner>
+		<name>hong.zhu</name>
+	</owner>
+    
+    <!-- 可以理解成一个数据来源 -->
+    <os-signpost-interval-schema>
+        <id>complexity</id>
+        <title>Complexity</title>
+        
+        <!-- 这三个是与项目中一一对应 -->
+        <subsystem>"com.hg.data"</subsystem>
+        <category>"Complexity"</category>
+        <name>"Complexity"</name>
+        
+        <!-- 开始匹配-->
+        <start-pattern>
+            <message>"started"</message>
+        </start-pattern>
+        
+        <!-- 结束匹配-->
+        <end-pattern>
+            <message>"finished data = " ?data-value " funName = " ?funName-value</message>
+        </end-pattern>
+        
+        <!-- 表中的一列 -->
+        <column>
+            <!-- 助记符标识, 在 graph 与 list 中只认这个标识 -->
+            <mnemonic>data</mnemonic>
+            <title>Data</title>
+            <!-- 数据的类型 event-count -->
+            <type>event-count</type>
+            <!-- 显示 data-size 的值  -->
+            <expression>?data-value</expression>
+        </column>
+        
+        <column>
+            <!-- 助记符标识, 在 graph 与 list 中只认这个标识 -->
+            <mnemonic>funname</mnemonic>
+            <title>FunName</title>
+            <!-- 数据的类型 string -->
+            <type>string</type>
+            <!-- 显示 funName-value 的值  -->
+            <expression>?funName-value</expression>
+        </column>
+        
+    </os-signpost-interval-schema>
+    
+    <instrument>
+        <id>com.hg.data</id>
+        <title>Complexity</title>
+        <category>Behavior</category>
+        <purpose>Inc.HG</purpose>
+        <icon>Generic</icon>
+        
+        <!-- 表 -->
+        <create-table>
+            <id>complexity-table</id>
+            <!-- os-signpost-interval-schema 的 id -->
+            <schema-ref>complexity</schema-ref>
+        </create-table>
+        
+        <!-- Define graph to draw for your Instrument (optional) -->
+        <graph>
+            <title>Complexity</title>
+            <lane>
+                <title>Complexity</title>
+                <table-ref>complexity-table</table-ref>
+                
+                <!-- plot, plot-template or histogram elements -->
+                <plot>
+                    <value-from>data</value-from>
+                </plot>
+            </lane>
+        </graph>
+        
+        <!-- Define at least one detail view for your Instrument -->
+        <list>
+            <title>data-info</title>
+            <table-ref>complexity-table</table-ref>
+            <column>data</column>
+            <column>funname</column>
+            <column>duration</column>
+        </list>
+        
+    </instrument>
+
+    
+</package>
